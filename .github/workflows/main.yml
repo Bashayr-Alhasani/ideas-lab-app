@@ -1,0 +1,31 @@
+name: Node CI
+on: [push]
+jobs:
+  build:
+  
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [14]
+        
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+      
+    # - name: Test the Testcases 
+    #  run: |
+    #    npm install
+    #    npm run build --if-present
+    #    npm test
+    - name: Login to Docker Hub
+      run: docker login --username "${{ secrets.Docker_username }}" --password "${{ secrets.Docker_password }}"
+    - name: Build the Docker Image 
+      run: docker build . --file Dockerfile --tag bashayrapps/ideas-lab-app
+    - name: Push the Docker Image 
+      run: docker push bashayrapps/ideas-lab-app
+      env:
+        CI: true
