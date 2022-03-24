@@ -10,6 +10,16 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+
+
+// ----------- EJS ----------- //
+const expressLayouts = require("express-ejs-layouts");
+app.use(expressLayouts);
+
+app.use("/public", express.static(__dirname + "/views/public"));
+app.set("view engine", "ejs");
+
+
 // parse requests of content-type - application/json
 app.use(express.json());  /* bodyParser.json() is deprecated */
 
@@ -32,7 +42,8 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  // res.json({ message: "Welcome to bezkoder application." });
+  res.render("articles/index");
 });
 
 require("./app/routes/article.routes")(app);
