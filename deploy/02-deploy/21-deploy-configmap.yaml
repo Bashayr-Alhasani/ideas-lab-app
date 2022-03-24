@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-app
+data:
+  DB: 'mongodb://adminuser:password123@mongo-nodeport-svc.mongo:27017/?authSource=admin'

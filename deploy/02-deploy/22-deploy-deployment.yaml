@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  labels:
+    app: web-app
+    role: nodejs
+spec:
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      name: web-app
+      labels:
+        app: web-app
+    spec:
+      containers:
+        - name: web-app
+          image: node-web-app:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: NODE_ENV
+              value: "k8s"
+            - name: DB
+              valueFrom:
+                configMapKeyRef:
+                  name: web-app
+                  key: DB
+          ports:
+            - containerPort: 8082
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8082
+              scheme: HTTP
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8082
+              scheme: HTTP
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+
