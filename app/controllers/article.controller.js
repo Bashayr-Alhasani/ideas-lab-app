@@ -5,7 +5,7 @@ const Article = db.articles;
 exports.create = async (req, res) => {
   // Validate request
   if (!req.body.title) {
-    res.render("create/index.ejs"); // ------------ EXTRA ----------- //
+    // res.render("create/index.ejs"); // ------------ EXTRA ----------- //
     return
   }
 
@@ -21,7 +21,7 @@ exports.create = async (req, res) => {
   article
     .save(article)
     .then(data => {
-      // res.send(data);
+      res.send(data);
       res.redirect("/api/articles");  // ------------ EXTRA ----------- //
       })
     .catch(err => {
@@ -37,8 +37,8 @@ exports.create = async (req, res) => {
 exports.findAllAvailable = async (req, res) => {
   Article.find({ available: true })
     .then(data => {
-      // res.send(data);
-      res.render("blog/available", { data: data });  // ------------ EXTRA ----------- //
+      res.send(data);
+      // res.render("blog/available", { data: data });  // ------------ EXTRA ----------- //
 
     })
     .catch(err => {
@@ -57,8 +57,8 @@ exports.findAll = async (req, res) => {
   // const title = req.query.title;
   Article.find()
     .then(data => {
-      // res.send(data);
-      res.render("blog/blog", { data: data });
+      res.send(data);
+      // res.render("blog/blog", { data: data });
     })
     .catch(err => {
       return es.status(500).send({
