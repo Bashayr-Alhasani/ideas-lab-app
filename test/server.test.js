@@ -11,7 +11,7 @@ describe('GET /api/articles', function () {
         request(app)
             .get('/api/articles')
             .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
+            .expect('Content-Type', /text/)
             .expect(200, done);
     });
 });
@@ -25,7 +25,7 @@ describe('GET /api/articles/available', function () {
       request(app)
           .get('/api/articles/available')
           .set('Accept', 'application/json')
-          .expect('Content-Type', /json/)
+          .expect('Content-Type', /text/)
           .expect(200, done);
   });
 });
